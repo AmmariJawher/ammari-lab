@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+body {
+  margin: 0;
+  font-family: 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container {
+  width: auto;
+  color: #222222;
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  background: #000000;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 12px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+}
+#logo {
+  height: 30px;
+}
+.add {
+  font-size: 14px;
+  color: #888888;
+}
+
+.add:hover {
+  color: #ffffff;
+}
+
+/* BUTTONS */
+:root {
+  --btn-size: 26px;
+  --btn-font: 18px;
+  --btn-radius: 4px;
+  --btn-padding: 0;
+  --btn-margin: 0;
+  --btn-display: flex;
+  --btn-align: center;
+  --btn-justify: center;
+}
+
+.button,
+.button-secondary {
+  all: unset;
+  font-size: var(--btn-font);
+  cursor: pointer;
+  display: var(--btn-display);
+  justify-content: var(--btn-justify);
+  align-items: var(--btn-align);
+  margin: var(--btn-margin);
+  padding: var(--btn-padding);
+  height: var(--btn-size);
+  min-width: var(--btn-size);
+  width: var(--btn-size);
+  border-radius: var(--btn-radius);
+}
+
+.button {
+  background: #ffffff;
+  color: #444;
+}
+
+.button:hover {
+  background: #e6f1fe;
+  color: #006FEE;
+}
+
+.button-secondary {
+  background: #000;
+  color: #888;
+}
+
+.button-secondary:hover {
+  background: #18181B;
+  color: #fff;
+  border: none;
+}
+
+
+.code {
+  background: #e2f9ff;
+  color: #006FEE;
+  border-radius: .25rem;
+  font-size: .875em;
+  font-weight: 500;
+  padding: .15rem .3rem;
+}
+
+
+.nav-show {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 200px;
+}
+
+.nav-show-list {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.companyList {
+  padding: 16px 12px;
+}
+
+.company {
+  background: #ffffff;
+  border-bottom: #cccccc 1px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0px;
+}
+
+.company-name {
+  color: #444444;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}
+.company-name.visited {
+  color: #888888;
+}
+.company-name:hover {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  color: #006FEE;
+}
+
+.textbox {
+  width: 100%;
+  font-size: 12px;
+  margin: 0;
+  padding: 0px 2px;
+}
+
+.textbox:focus {
+  outline: 0;
+  border-color: #66afe9;
+}

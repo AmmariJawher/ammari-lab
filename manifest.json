@@ -1,0 +1,55 @@
+{
+    "name": "Ammari Lab",
+    "description": "Saving time",
+    "version": "0.2.0",
+    "icons": {
+    "512": "assets/icon_128x128.png"
+    },
+    "permissions": ["storage", "tabs", "sidePanel"],
+    "host_permissions": [
+      "https://*.alibaba.com/*",
+      "https://*.globalsources.com/*",
+      "https://*.made-in-china.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://*.alibaba.com/*"],
+        "js": ["utils.js", "contentScript.js"]
+      },
+      {
+        "matches": ["https://*.globalsources.com/*"],
+        "js": ["utils.js", "contentScript.js"]
+      },
+      {
+        "matches": ["https://*.made-in-china.com/*"],
+        "js": ["utils.js", "contentScript.js"]
+      }
+    ],
+    "side_panel": {
+      "default_path": "sidepanel.html"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/bookmark.png",
+          "assets/play.png",
+          "assets/delete.png",
+          "assets/save.png"
+        ],
+        "matches": ["https://*.alibaba.com/*"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/ext-icon.png",
+        "24": "assets/ext-icon.png",
+        "32": "assets/ext-icon.png"
+      },
+      "default_title": "AmmariLab",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+}
