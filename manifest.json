@@ -1,16 +1,10 @@
 {
-<<<<<<< HEAD
     "name": "Ammari Lab",
     "description": "Saving time",
     "version": "0.2.0",
     "icons": {
     "512": "assets/icon_128x128.png"
     },
-=======
-    "name": "AmmariLab",
-    "version": "0.1.0",
-    "description": "Saving time",
->>>>>>> 44a26c10f645d6866cfc4bb3022e866f847d3b74
     "permissions": ["storage", "tabs", "sidePanel"],
     "host_permissions": [
       "https://*.alibaba.com/*",
@@ -23,7 +17,6 @@
     "content_scripts": [
       {
         "matches": ["https://*.alibaba.com/*"],
-<<<<<<< HEAD
         "js": ["utils.js", "contentScript.js"]
       },
       {
@@ -33,17 +26,6 @@
       {
         "matches": ["https://*.made-in-china.com/*"],
         "js": ["utils.js", "contentScript.js"]
-=======
-        "js": ["contentScript.js"]
-      },
-      {
-        "matches": ["https://*.globalsources.com/*"],
-        "js": ["contentScript.js"]
-      },
-      {
-        "matches": ["https://*.made-in-china.com/*"],
-        "js": ["contentScript.js"]
->>>>>>> 44a26c10f645d6866cfc4bb3022e866f847d3b74
       }
     ],
     "side_panel": {
