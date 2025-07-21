@@ -13,11 +13,23 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       path: "sidepanel.html",
       enabled: true
     });
-    
-    // Send NEW message to content script
-    chrome.tabs.sendMessage(tabId, {
-      type: "NEW",
-      url: url,
-    });
+
+    if (url.hostname === "www.alibaba.com" && url.pathname.startsWith("/product-detail/")) {
+      chrome.tabs.sendMessage(tabId, {
+        type: "PRODUCT",
+        url: url.href,
+      });
+    } else if (url.hostname === "www.alibaba.com" && url.pathname === "/trade/search") {
+      chrome.tabs.sendMessage(tabId, {
+        type: "SEARCH",
+        url: url.href
+      });
+    } else {
+      // Send NEW message to content script
+      chrome.tabs.sendMessage(tabId, {
+        type: "NEW",
+        url: url,
+      });
+    }
   }
 });

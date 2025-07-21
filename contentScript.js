@@ -14,6 +14,14 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
         } else if (window.location.hostname.includes("made-in-china.com")) {
             listMadeInChinaSuppliers();
         }
+    } else if (type === "PRODUCT") {
+        const company = document.querySelector(".company-name a")
+        highlightText(company, () => redirect(company))
+    } else if (type === "SEARCH") {
+        const companies = document.querySelectorAll('a.search-card-e-company')
+        companies.forEach((company) => {
+            highlightText(company, () => redirect(company))
+        })
     }
 });
 
@@ -30,7 +38,6 @@ const listGlobalSourcesSuppliers = () => {
     });
 
     chrome.runtime.sendMessage({ type: "COMPANY_DATA", data: suppliers });
-    console.log(suppliers);
 }
 
 function listMadeInChinaSuppliers() {
@@ -44,7 +51,6 @@ function listMadeInChinaSuppliers() {
     });
   
     chrome.runtime.sendMessage({ type: "COMPANY_DATA", data: suppliers });
-    console.log(suppliers);
 }
   
 
@@ -71,7 +77,6 @@ const listAlibabaSuppliers = () => {
     });
 
     chrome.runtime.sendMessage({ type: "COMPANY_DATA", data: suppliers });
-    console.log(suppliers);
 }
 
 function isOnAlibabaAssessmentPage() {
@@ -161,6 +166,8 @@ function formatCompanyPhoneNumber(numStr) {
 }
 
 function formatCompanyEmail(email) {
+    console.log(email);
+    
   if (!email || typeof email !== "string") return "";
 
   const parts = email.split("@");
@@ -176,7 +183,8 @@ function formatCompanyEmail(email) {
   ];
 
   // If the local part is generic, skip formatting
-  if (genericLocals.includes(local)) return "";
+  if (genericLocals.includes(local)) return `%@${domain}%`;
+  ;
 
   return `%${local}%@${domain}%`;
 }
@@ -204,62 +212,74 @@ function copyToClipboard(content) {
 }
 
 const highlightInfo = () => {
-    const highlightStyle = "background-color: #e6f1fe; cursor: pointer; border-radius: .25rem; color: #006FEE; padding: .15rem .3rem;";
-
     // Highlight Company Name 
     const companyNameLi = [...document.querySelectorAll(".bl-info li")]
         .find(li => li.textContent.includes("Company Name"));
-
+        
     if (companyNameLi) {
         const name = companyNameLi.textContent.split(":")[1]?.trim();
+
         if (name) {
-        const span = document.createElement("span");
-        span.textContent = name;
-        span.style = highlightStyle;
+            let tempSpan = document.createElement("span");
+            tempSpan.textContent = name;
+            // Clear and rebuild the list item
+            companyNameLi.innerHTML = `<span>Company Name</span> : `;
 
-        span.onclick = () => {
-            copyToClipboard(formatChineseCompanyName(name))
-        };
+            highlightText(tempSpan, () => {
+                copyToClipboard(formatChineseCompanyName(name));
+            });
 
-        // Replace plain text with the link
-        companyNameLi.innerHTML = `<span>Company Name</span> : `;
-        companyNameLi.appendChild(span);
+            companyNameLi.appendChild(tempSpan); // append the styled span
         }
     }
 
-    // Highlight email
+    // Highlight Email
     const emailDd = [...document.querySelectorAll("dl.v-info dd")]
         .find(dd => /^[\w.-]+@[\w.-]+\.\w+$/.test(dd.textContent.trim()));
-
     if (emailDd) {
-        const email = emailDd.textContent.trim();
-        const span = document.createElement("span");
-        span.textContent = email;
-        span.style = highlightStyle;
+        let tempSpan = document.createElement("span");
+        tempSpan.textContent = emailDd.textContent.trim();
+        console.log(tempSpan);
 
-        span.onclick = () => {
-            copyToClipboard(formatCompanyEmail(email))
-        };
-
-        emailDd.innerHTML = "";
-        emailDd.appendChild(span);
+        highlightText(tempSpan, () => {
+            copyToClipboard(formatCompanyEmail(tempSpan.textContent.trim()));
+        });
+        emailDd.replaceChildren(tempSpan);
     }
 
-    // Highlight phone
+    // Highlight Phone
     const phoneDd = [...document.querySelectorAll("dl.v-info dd")]
-        .find(dd => /^\d{7,}$/.test(dd.textContent.trim())); // simple phone pattern
-    
+        .find(dd => /^\d{7,}$/.test(dd.textContent.trim()));
     if (phoneDd) {
-        const phone = phoneDd.textContent.trim();
-        const span = document.createElement("span");
-        span.textContent = phone;
-        span.style = highlightStyle;
+        let tempSpan = document.createElement("span");
+        tempSpan.textContent = phoneDd.textContent.trim();
 
-        span.onclick = () => {
-            copyToClipboard(formatCompanyPhoneNumber(phone))
-        };
-
-        phoneDd.innerHTML = "";
-        phoneDd.appendChild(span);
+        highlightText(tempSpan, () => {
+            copyToClipboard(formatCompanyPhoneNumber(tempSpan.textContent.trim()));
+        });
+        phoneDd.replaceChildren(tempSpan);
     }
+};
+
+
+
+
+
+const highlightText = (element, onClick) => {
+    const highlightStyle = "background-color: #e6f1fe; text-decoration-line: none; cursor: pointer; border-radius: .25rem; color: #006FEE; padding: .15rem .3rem;";
+    
+    element.style = highlightStyle;
+
+    if (element.tagName === 'A') {
+        element.rel = 'noopener noreferrer';
+    }
+
+    if (onClick) element.onclick = onClick;
+    console.log(element);
+    
+};
+
+const redirect = (element) => {
+    const baseUrl = new URL(element.href).origin;
+    location.href = `${baseUrl}/company_profile.html?subpage=onsite`;
 }
